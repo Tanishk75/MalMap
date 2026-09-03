@@ -59,8 +59,11 @@ class FusionModel(nn.Module):
                     p.requires_grad_(False)
                 branch.eval()
 
-        fusion_input_dim = sum(b.embedding_dim for b in branch_models)
-        self.classifier = nn.Linear(fusion_input_dim, num_families)
+        # Set alongside classifier so load_checkpoint can sanity-check this
+        # model the same way it does ImageCNN/AudioCNN (Data Dictionary S5:
+        # embedding_dim is recorded "for downstream fusion sanity-check").
+        self.embedding_dim = sum(b.embedding_dim for b in branch_models)
+        self.classifier = nn.Linear(self.embedding_dim, num_families)
 
     def train(self, mode: bool = True) -> "FusionModel":
         super().train(mode)
