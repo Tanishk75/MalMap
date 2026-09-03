@@ -100,6 +100,20 @@ def family_map_path(track: Track) -> Path:
     return DATA_CACHE / f"family_to_id_{track}.json"
 
 
+def image_cache_path(sample_id: str) -> Path:
+    return DATA_CACHE / "image" / f"{sample_id}.pt"
+
+
+def image_offsets_path(sample_id: str) -> Path:
+    # Required alongside every cached image tensor (ADR-0008) -- a tensor
+    # without its offset map cannot support FR6 attribution and is invalid.
+    return DATA_CACHE / "image" / f"{sample_id}.offsets.json"
+
+
+def audio_cache_path(sample_id: str) -> Path:
+    return DATA_CACHE / "audio" / f"{sample_id}.pt"
+
+
 def checkpoint_path(stage: str, track: Track, seed: int) -> Path:
     return CHECKPOINTS / track / f"{tag(stage, track)}-seed{seed}.pt"
 

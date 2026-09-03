@@ -30,3 +30,7 @@ pefile            # PE section boundaries; needs an intact header
 
 # --- PAUSED (V3), not installed ------------------------------------------
 # torch_geometric, r2pipe, angr, networkx
+
+# --- Kaggle-only, not needed locally ---------------------------------------
+# py7zr -- installed by notebooks/big2015_subsample.ipynb itself; the local
+# venv only needs it if you re-run that notebook's cells outside Kaggle.
