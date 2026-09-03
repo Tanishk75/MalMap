@@ -38,6 +38,16 @@ SPLIT_SEED: int = 42
 SPLIT_RATIOS: tuple[float, float, float] = (0.70, 0.15, 0.15)
 
 # --------------------------------------------------------------------------
+# BIG2015 sampling (ADR-0003, protocols/big2015_sampling.md)
+# --------------------------------------------------------------------------
+# Separate from SPLIT_SEED: this seed decides which raw samples exist in the
+# track's corpus at all, extracted once from train.7z on Kaggle. SPLIT_SEED
+# later decides how those same samples get partitioned into train/val/test.
+
+BIG2015_SAMPLE_SEED = 2015
+BIG2015_SAMPLES_PER_FAMILY = 100
+
+# --------------------------------------------------------------------------
 # Stages and git tags
 # --------------------------------------------------------------------------
 # Tags are "{stage}-{track}". A bare "m1-image" is ambiguous and is not used.
