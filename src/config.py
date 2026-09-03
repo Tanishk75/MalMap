@@ -140,6 +140,7 @@ IMAGE_TARGET_SHAPE = (224, 224)
 ENTROPY_WINDOW = 256        # OPEN until Milestone 1 -- swept, not guessed
 AUDIO_SAMPLE_RATE = 16_000  # OPEN until Milestone 2
 AUDIO_N_MELS = 128          # OPEN until Milestone 2
+AUDIO_N_FRAMES = 128        # OPEN until Milestone 2 -- fixed time axis for batching
 
 # --------------------------------------------------------------------------
 # Robustness sweep (ADR-0015)

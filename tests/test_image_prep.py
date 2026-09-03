@@ -10,7 +10,8 @@ import torch
 
 import src.config as config
 from src.data.recover import ResizedDistributionError
-from src.preprocess.image import _parse_kaggle_bytes_file, image_prep
+from src.preprocess.image import image_prep
+from src.preprocess.raw_bytes import parse_kaggle_bytes_file
 
 
 @pytest.fixture(autouse=True)
@@ -111,7 +112,7 @@ def test_parse_kaggle_bytes_file(tmp_path):
     path = tmp_path / "0.bytes"
     path.write_text(text)
 
-    raw = _parse_kaggle_bytes_file(path)
+    raw = parse_kaggle_bytes_file(path)
     assert raw == bytes([0x8B, 0xFF, 0x55, 0x00, 0xEC, 0x83, 0xEC, 0x44])
 
 

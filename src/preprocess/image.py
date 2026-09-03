@@ -11,45 +11,14 @@ FR6 attribution is unmeasurable.
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
 import numpy as np
 import torch
 import torch.nn.functional as F
 
 from src.config import image_cache_path, image_offsets_path
-from src.data.recover import ResizedDistributionError, recover_bytes, width_for_size
-
-IMAGE_FILE_EXTENSIONS = (".png", ".jpg", ".jpeg", ".bmp", ".gif")
-
-
-def _parse_kaggle_bytes_file(path: Path) -> bytes:
-    """BIG2015 `.bytes` format: '<address> <hex> <hex> ... <hex>' per line, the
-    leading address label discarded. '??' marks a byte the competition scrubbed
-    from the PE header (ADR-0003) and is treated as 0x00 -- there is no way to
-    recover the true value on this track, and 0x00 is at least a fixed, stated
-    convention rather than a guess dressed up as data."""
-    out = bytearray()
-    with open(path, "r", encoding="ascii", errors="replace") as f:
-        for line in f:
-            for tok in line.split()[1:]:
-                out.append(0 if tok == "??" else int(tok, 16))
-    return bytes(out)
-
-
-def _load_raw_bytes(binary_path: str) -> bytes:
-    """Dispatches on file extension: a Malimg image recovers via Nataraj
-    flattening (ADR-0002, strict -- a resize failure must surface here, not be
-    masked as "malformed input"); a BIG2015 `.bytes` file is a hex-dump text
-    format; anything else (a benign PE, ADR-0018, or a raw instrument-set
-    binary) is read directly."""
-    path = Path(binary_path)
-    suffix = path.suffix.lower()
-    if suffix == ".bytes":
-        return _parse_kaggle_bytes_file(path)
-    if suffix in IMAGE_FILE_EXTENSIONS:
-        return recover_bytes(path)
-    return path.read_bytes()
+from src.data.recover import ResizedDistributionError, width_for_size
+from src.preprocess.raw_bytes import load_raw_bytes
 
 
 def _shannon_entropy(window: np.ndarray) -> float:
@@ -101,7 +70,7 @@ def image_prep(
         raise ValueError(f"channels must be 1 or 2, got {channels}")
 
     try:
-        raw = _load_raw_bytes(binary_path)
+        raw = load_raw_bytes(binary_path)
     except ResizedDistributionError:
         raise
     except (OSError, ValueError):
