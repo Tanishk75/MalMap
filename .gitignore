@@ -1,0 +1,25 @@
+# Caches and artifacts. Everything here is regenerable from code + protocols.
+data_cache/
+checkpoints/
+logs/
+results/*
+!results/.gitkeep
+
+# The demo's committed artifacts are the one exception (ADR-0016); add them
+# explicitly with `git add -f` when Milestone 7 selects them.
+
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+*.egg-info/
+
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Git Bash crash artifact seen in this workspace before. Never commit it.
+bash.exe.stackdump

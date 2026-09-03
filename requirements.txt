@@ -1,0 +1,32 @@
+# Python 3.12. Not 3.14 -- torch and torch_geometric wheels lag the newest
+# interpreter, and this project cannot afford to be blocked on that.
+
+# --- Data layer / preprocessing -------------------------------------------
+numpy
+pandas
+pillow            # Malimg images; byte recovery reads these
+scipy
+
+# --- Models ---------------------------------------------------------------
+# Training runs on Kaggle/Colab GPU (ADR-0006); the local install is CPU-only
+# and exists for smoke tests and shape checks.
+torch
+torchvision
+
+# --- Audio branch (M2) ----------------------------------------------------
+librosa
+soundfile
+
+# --- Evaluation and reporting ---------------------------------------------
+scikit-learn
+matplotlib
+
+# --- Tests ---------------------------------------------------------------
+pytest
+
+# --- Explainability (FR6) -------------------------------------------------
+grad-cam          # imports as pytorch_grad_cam
+pefile            # PE section boundaries; needs an intact header
+
+# --- PAUSED (V3), not installed ------------------------------------------
+# torch_geometric, r2pipe, angr, networkx
