@@ -1,3 +1,7 @@
+# Raw datasets. Never committed: multi-GB, not code, and BIG2015 is
+# Kaggle competition data with its own redistribution terms.
+data/
+
 # Caches and artifacts. Everything here is regenerable from code + protocols.
 data_cache/
 checkpoints/
