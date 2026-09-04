@@ -12,8 +12,9 @@ When a term here conflicts with wording in an older document, this file wins.
 
 **Track**:
 An independent end-to-end experimental line bound to one source dataset, carrying
-its own label space, splits, caches, checkpoints and result tables. The project runs
-two: the Malimg track and the BIG2015 track.
+its own label space, splits, caches, checkpoints and result tables. The design runs
+two — the Malimg track and the BIG2015 track — but Malimg is paused for lack of an
+original-resolution distribution (ADR-0019); the delivered system reports BIG2015 alone.
 _Avoid_: dataset, corpus, arm, pipeline
 
 **Sample**:

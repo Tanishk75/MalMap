@@ -7,6 +7,11 @@ branch and trimodal fusion are designed, preserved and paused in [`paused/`](./p
 documents describe a complete multimodal system on its own terms; they do not describe a
 trimodal design with a branch missing.
 
+**Track.** Malimg is paused for lack of an original-resolution distribution; BIG2015 is the
+project's sole delivered track (ADR-0019). Malimg's schemas, code paths and tests stay in place
+— the same "designed, preserved, not built" treatment as the graph branch — but every active
+document's "per track" language now runs once, not twice, until Malimg resumes.
+
 | Document | What it is |
 |---|---|
 | [`CONTEXT.md`](./CONTEXT.md) | The glossary. Vocabulary only; it wins over wording anywhere else. |
