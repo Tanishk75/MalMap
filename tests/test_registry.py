@@ -96,6 +96,48 @@ def test_build_registry_big2015_missing_bytes_file(tmp_path):
         build_registry("big2015", str(raw))
 
 
+def _make_motif_tree(root, family_and_counts):
+    root.mkdir(parents=True, exist_ok=True)
+    rows = []
+    for family, count in family_and_counts.items():
+        for i in range(count):
+            md5 = f"{family[:4]}{i:028d}"
+            (root / f"MOTIF_{md5}").write_bytes(b"\x00disarmed-pe-bytes")
+            rows.append({
+                "sample_id": f"motif_{md5}",
+                "md5": md5,
+                "family_label": family,
+            })
+    pd.DataFrame(rows).to_csv(root / "motif_labels.csv", index=False)
+
+
+def test_build_registry_motif(tmp_path):
+    raw = tmp_path / "raw_motif"
+    _make_motif_tree(raw, {"icedid": 5, "azorult": 3})
+
+    df = build_registry("motif", str(raw))
+
+    assert len(df) == 8
+    assert set(df["family_label"]) == {"icedid", "azorult"}
+    assert set(df["track"]) == {"motif"}
+    assert set(df["source_dataset"]) == {"motif"}
+    assert df["sample_id"].is_unique
+    assert all(Path(p).exists() for p in df["binary_path"])
+    assert config.registry_path("motif").exists()
+    assert config.family_map_path("motif").exists()
+
+
+def test_build_registry_motif_missing_file(tmp_path):
+    raw = tmp_path / "raw_motif_missing"
+    raw.mkdir()
+    pd.DataFrame([{"sample_id": "motif_abc", "md5": "abc", "family_label": "icedid"}]).to_csv(
+        raw / "motif_labels.csv", index=False
+    )
+    # deliberately do not write MOTIF_abc
+    with pytest.raises(FileNotFoundError):
+        build_registry("motif", str(raw))
+
+
 def test_get_family_id_map_sorted_and_deterministic():
     registry = pd.DataFrame({"family_label": ["Zeta", "Alpha", "Alpha", "Mid"]})
     id_map = get_family_id_map("malimg", registry)

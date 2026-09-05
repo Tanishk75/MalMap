@@ -32,7 +32,8 @@ documents and make a resumption harder to read. They are listed below so nothing
 | [0016](./0016-no-serving-layer.md) | No serving layer; the demo is the entropy comparison | accepted |
 | [0017](./0017-v2-bimodal-scope.md) | The delivered system is bimodal; the graph branch is paused | accepted |
 | [0018](./0018-benign-pe-mechanism-fallback.md) | Benign Windows binaries are FR6's mechanism fallback | accepted |
-| [0019](./0019-malimg-paused-big2015-sole-track.md) | Malimg is paused; BIG2015 is the project's sole delivered track | accepted |
+| [0019](./0019-malimg-paused-big2015-sole-track.md) | Malimg is paused; BIG2015 is the project's sole delivered track | accepted, superseded by 0020 |
+| [0020](./0020-motif-replaces-malimg-second-track.md) | MOTIF replaces Malimg as the project's second track | accepted |
 
 ## Decisions deliberately not yet made
 
@@ -44,7 +45,7 @@ them is silently assumed in the meantime.
 | Entropy window size | Milestone 1 (swept, not guessed) |
 | Audio sample rate and mel-band count | Milestone 2 |
 | Padding strengths to sweep | Milestone 6 |
-| Whether BODMAS must be acquired to give FR5 a second track to probe, now that Malimg is paused (ADR-0019) — no longer optional the way ADR-0014 originally framed it | Milestone 5, before it starts |
+| Whether BODMAS is worth acquiring at all, given BIG2015 and MOTIF already probe each other | Milestone 5 |
 
 Two questions left this list when the graph branch was paused — the instruction-type bucket
 scheme behind `node_feature_dim`, and `radare2` versus `angr` — and are recorded in

@@ -18,8 +18,8 @@ from typing import Literal
 # 34-class space could score well by identifying the dataset rather than the
 # family, which would inflate every fusion delta this project rests on.
 
-Track = Literal["malimg", "big2015"]
-TRACKS: tuple[Track, ...] = ("malimg", "big2015")
+Track = Literal["malimg", "big2015", "motif"]
+TRACKS: tuple[Track, ...] = ("malimg", "big2015", "motif")
 
 # --------------------------------------------------------------------------
 # Seeds (ADR-0013)
@@ -46,6 +46,18 @@ SPLIT_RATIOS: tuple[float, float, float] = (0.70, 0.15, 0.15)
 
 BIG2015_SAMPLE_SEED = 2015
 BIG2015_SAMPLES_PER_FAMILY = 100
+
+# --------------------------------------------------------------------------
+# MOTIF sampling (ADR-0020, protocols/motif_sampling.md)
+# --------------------------------------------------------------------------
+# MOTIF replaces Malimg as the second track (ADR-0019 paused Malimg for lack of an
+# original-resolution distribution). 454 source families is an extreme long tail, so
+# only the top MOTIF_TOP_N_FAMILIES by sample count are kept, each capped to the same
+# size -- an even, balanced set rather than a long-tailed one.
+
+MOTIF_SAMPLE_SEED = 2022
+MOTIF_TOP_N_FAMILIES = 30
+MOTIF_SAMPLES_PER_FAMILY = 21
 
 # --------------------------------------------------------------------------
 # Stages and git tags

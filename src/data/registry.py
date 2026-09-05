@@ -7,6 +7,11 @@ each containing that family's image files.
 BIG2015 layout expected under dataset_path: a trainLabels.csv (Id,Class
 columns) plus the matching .bytes files, either directly under dataset_path
 or under dataset_path/bytes (ADR-0003 -- .bytes only, no .asm).
+
+MOTIF layout expected under dataset_path: a motif_labels.csv (sample_id,md5,
+family_label columns) plus the matching disarmed PE files named MOTIF_<md5>,
+either directly under dataset_path or under dataset_path/bytes (ADR-0020,
+protocols/motif_sampling.md).
 """
 
 from __future__ import annotations
@@ -95,6 +100,41 @@ def _build_big2015_registry(dataset_path: Path) -> pd.DataFrame:
     return df
 
 
+def _build_motif_registry(dataset_path: Path) -> pd.DataFrame:
+    labels_path = dataset_path / "motif_labels.csv"
+    if not labels_path.exists():
+        raise FileNotFoundError(f"expected {labels_path} (sample_id,md5,family_label columns)")
+
+    labels = pd.read_csv(labels_path)
+    bytes_dir = dataset_path / "bytes" if (dataset_path / "bytes").is_dir() else dataset_path
+
+    rows = []
+    missing = []
+    for _, row in labels.iterrows():
+        sample_file = bytes_dir / f"MOTIF_{row['md5']}"
+        if not sample_file.exists():
+            missing.append(row["md5"])
+            continue
+        rows.append({
+            "sample_id": row["sample_id"],
+            "binary_path": str(sample_file.resolve()),
+            "family_label": row["family_label"],
+        })
+    if missing:
+        raise FileNotFoundError(
+            f"{len(missing)} MOTIF files listed in motif_labels.csv were not found "
+            f"under {bytes_dir} (e.g. MOTIF_{missing[0]})"
+        )
+    if not rows:
+        raise ValueError(f"motif_labels.csv at {labels_path} produced zero samples")
+
+    df = pd.DataFrame(rows)
+    df["source_dataset"] = "motif"
+    df["track"] = "motif"
+    df["disasm_status"] = "not_attempted"
+    return df
+
+
 def build_registry(track: Track, dataset_path: str) -> pd.DataFrame:
     """Builds and persists that track's registry to data_cache/registry_{track}.csv.
 
@@ -108,6 +148,8 @@ def build_registry(track: Track, dataset_path: str) -> pd.DataFrame:
         df = _build_malimg_registry(path)
     elif track == "big2015":
         df = _build_big2015_registry(path)
+    elif track == "motif":
+        df = _build_motif_registry(path)
     else:
         raise ValueError(f"unknown track {track!r}")
 

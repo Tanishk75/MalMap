@@ -7,10 +7,11 @@ branch and trimodal fusion are designed, preserved and paused in [`paused/`](./p
 documents describe a complete multimodal system on its own terms; they do not describe a
 trimodal design with a branch missing.
 
-**Track.** Malimg is paused for lack of an original-resolution distribution; BIG2015 is the
-project's sole delivered track (ADR-0019). Malimg's schemas, code paths and tests stay in place
-— the same "designed, preserved, not built" treatment as the graph branch — but every active
-document's "per track" language now runs once, not twice, until Malimg resumes.
+**Track.** Malimg is paused for lack of an original-resolution distribution (ADR-0019); MOTIF
+replaces it as the project's second track (ADR-0020). The delivered system runs two tracks —
+BIG2015 and MOTIF — everywhere "per track" language appears. Malimg's schemas, code paths and
+tests stay in place — the same "designed, preserved, not built" treatment as the graph branch —
+ready to resume if an original-resolution distribution surfaces later.
 
 | Document | What it is |
 |---|---|
@@ -44,6 +45,12 @@ documents would have broken all five. Only the ADRs and the milestone plans were
 moved, into [`paused/`](./paused/).
 
 ## Known gaps
+
+- **PRD, System Architecture, Evaluation Metrics Spec and Checkpoint Development Plan still
+  describe Malimg as Track 1 and have not been reconciled for ADR-0019/ADR-0020 (MOTIF replacing
+  it).** Per the precedence rule above the ADRs are authoritative in the meantime — treat any
+  "Malimg" reference in those four documents as "the second track, currently MOTIF" until they
+  are updated.
 
 - **`SRS v1.0` and `Tech Stack v1.0` are referenced but absent.** The PRD, the roadmap and the
   checkpoint plan all cite section numbers in an SRS (`SRS §3.1`, `§8`) and a Tech Stack document

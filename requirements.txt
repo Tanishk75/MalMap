@@ -32,5 +32,7 @@ pefile            # PE section boundaries; needs an intact header
 # torch_geometric, r2pipe, angr, networkx
 
 # --- Kaggle-only, not needed locally ---------------------------------------
-# py7zr -- installed by notebooks/big2015_subsample.ipynb itself; the local
-# venv only needs it if you re-run that notebook's cells outside Kaggle.
+# py7zr -- installed by notebooks/big2015_subsample.ipynb and
+# notebooks/motif_subsample.ipynb themselves. The local venv also needs it
+# to unpack the password-protected motif_subsample.7z the latter produces
+# (ADR-0020) -- pip install py7zr if extracting locally.
